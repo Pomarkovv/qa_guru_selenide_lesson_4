@@ -1,7 +1,9 @@
 package tests;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
 import components.UserDataTableComponent;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import pages.FormPage;
@@ -39,6 +41,11 @@ public class TestForm {
         Configuration.pageLoadStrategy = "eager";
     }
 
+    @AfterEach
+    void afterEach() {
+        Selenide.closeWebDriver();
+    }
+
     @Test
     void fillFormSuccessfullyTest() {
         Map<String, String> expectedValues = Map.of(
@@ -55,6 +62,7 @@ public class TestForm {
         );
 
         formPage.openFormPage()
+                .removeBanner()
                 .setFirstName(FIRST_NAME)
                 .setLastName(LAST_NAME)
                 .setEmail(EMAIL)
@@ -82,6 +90,7 @@ public class TestForm {
         );
 
         formPage.openFormPage()
+                .removeBanner()
                 .setFirstName(FIRST_NAME)
                 .setLastName(LAST_NAME)
                 .setGender(GENDER)
@@ -95,6 +104,7 @@ public class TestForm {
     @Test
     void checkInvalidInputStyleThenOnlyFirstNameGivenTest() {
         formPage.openFormPage()
+                .removeBanner()
                 .setFirstName(FIRST_NAME)
                 .submitForm();
 
@@ -104,6 +114,7 @@ public class TestForm {
     @Test
     void checkInvalidPhoneLengthTest() {
         formPage.openFormPage()
+                .removeBanner()
                 .setPhone("983123123")
                 .submitForm();
 
@@ -113,6 +124,7 @@ public class TestForm {
     @Test
     void checkValidPhoneLengthTest() {
         formPage.openFormPage()
+                .removeBanner()
                 .setPhone("9831231234")
                 .submitForm();
 

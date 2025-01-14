@@ -8,8 +8,7 @@ import java.util.List;
 
 import static com.codeborne.selenide.Condition.cssValue;
 import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 public class FormPage {
 
@@ -31,7 +30,13 @@ public class FormPage {
     UserDataTableComponent table = new UserDataTableComponent();
 
     public FormPage openFormPage() {
-        open("https://demoqa.com/automation-practice-form");
+        open("/automation-practice-form");
+        return this;
+    }
+
+    public FormPage removeBanner() {
+        executeJavaScript("$('#fixedban').remove()");
+        executeJavaScript("$('footer').remove()");
         return this;
     }
 
