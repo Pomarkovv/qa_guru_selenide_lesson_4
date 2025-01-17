@@ -1,44 +1,44 @@
 package tests;
 
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import components.UserDataTableComponent;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.FormPage;
 
 import java.util.List;
 import java.util.Map;
 
-public class TestForm {
+import static io.qameta.allure.Allure.step;
+import static utils.TestDataUtils.*;
 
-    private static final String
-            FIRST_NAME = "Ivan",
-            LAST_NAME = "Pomarkov",
-            EMAIL = "ivanpomarkovse@gmail.com",
-            PHONE = "9293088508",
-            DAY = "14",
-            MONTH = "March",
-            YEAR = "2002",
-            ADDRESS = "Kansk, Krasnoyarsiy krai, Karla Marksa, 39",
-            GENDER = "Male",
-            DATE_OF_BIRTH = "14 March,2002",
-            SUBJECT = "Maths",
-            HOBBY = "Music",
-            PICTURE_PATH = "files/img.png",
-            PICTURE_NAME = "img.png",
-            STATE = "Haryana",
-            CITY = "Panipat";
+public class TestForm extends BaseTest {
+
+    private final String FIRST_NAME = getRandomFirstName();
+    private final String LAST_NAME = getRandomLastName();
+    private final String EMAIL = getRandomEmail();
+    private final String PHONE = getRandomPhone();
+    private final String DAY = getRandomDay();
+    private final String MONTH = getRandomMonth();
+    private final String YEAR = getRandomYear();
+    private final String ADDRESS = getRandomAddress();
+    private final String GENDER = getRandomGender();
+    private final String SUBJECT = getRandomSubject();
+    private final String HOBBY = getRandomHobby();
+    private final String STATE = getRandomState();
+    private final String CITY = getRandomCity(STATE);
 
     FormPage formPage = new FormPage();
     UserDataTableComponent table = new UserDataTableComponent();
 
-    @BeforeAll
-    static void setup() {
-        Configuration.browserSize = "1920x1080";
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.pageLoadStrategy = "eager";
+    @BeforeEach
+    void openFormPage() {
+        step("Открываем страницу с формой", () -> {
+            formPage.openFormPage()
+                    .removeBanner();
+        });
     }
 
     @AfterEach
@@ -46,41 +46,47 @@ public class TestForm {
         Selenide.closeWebDriver();
     }
 
+    @Tag("smoke")
     @Test
     void fillFormSuccessfullyTest() {
+        String picturePath = "files/img.png";
         Map<String, String> expectedValues = Map.of(
                 "Student Name", FIRST_NAME + " " + LAST_NAME,
                 "Student Email", EMAIL,
                 "Gender", GENDER,
                 "Mobile", PHONE,
-                "Date of Birth", DATE_OF_BIRTH,
+                "Date of Birth", String.format("%s %s,%s", DAY, MONTH, YEAR),
                 "Subjects", SUBJECT,
                 "Hobbies", HOBBY,
-                "Picture", PICTURE_NAME,
+                "Picture", getFileName(picturePath),
                 "Address", ADDRESS,
                 "State and City", STATE + " " + CITY
         );
 
-        formPage.openFormPage()
-                .removeBanner()
-                .setFirstName(FIRST_NAME)
-                .setLastName(LAST_NAME)
-                .setEmail(EMAIL)
-                .setGender(GENDER)
-                .setPhone(PHONE)
-                .setDate(DAY, MONTH, YEAR)
-                .setSubject(SUBJECT)
-                .setHobby(HOBBY)
-                .setPicture(PICTURE_PATH)
-                .setAddress(ADDRESS)
-                .setState(STATE)
-                .setCity(CITY);
-        formPage.submitForm();
-
-        table.visible();
-        expectedValues.forEach(table::checkRow);
+        step("Заполняем форму данными", () -> {
+            formPage.setFirstName(FIRST_NAME)
+                    .setLastName(LAST_NAME)
+                    .setEmail(EMAIL)
+                    .setGender(GENDER)
+                    .setPhone(PHONE)
+                    .setDate(DAY, MONTH, YEAR)
+                    .setSubject(SUBJECT)
+                    .setHobby(HOBBY)
+                    .setPicture(picturePath)
+                    .setAddress(ADDRESS)
+                    .setState(STATE)
+                    .setCity(CITY);
+        });
+        step("Сабмитим форму", () -> {
+            formPage.submitForm();
+        });
+        step("Проверяем данные итоговой таблицы", () -> {
+            table.visible();
+            expectedValues.forEach(table::checkRow);
+        });
     }
 
+    @Tag("smoke")
     @Test
     void fillFormWithMinDataSuccessfullyTest() {
         Map<String, String> expectedValues = Map.of(
@@ -89,45 +95,60 @@ public class TestForm {
                 "Mobile", PHONE
         );
 
-        formPage.openFormPage()
-                .removeBanner()
-                .setFirstName(FIRST_NAME)
-                .setLastName(LAST_NAME)
-                .setGender(GENDER)
-                .setPhone(PHONE);
-        formPage.submitForm();
-
-        table.visible();
-        expectedValues.forEach(table::checkRow);
+        step("Заполняем минимально требуемые данные", () -> {
+            formPage.setFirstName(FIRST_NAME)
+                    .setLastName(LAST_NAME)
+                    .setGender(GENDER)
+                    .setPhone(PHONE);
+        });
+        step("Сабмитим форму", () -> {
+            formPage.submitForm();
+        });
+        step("Проверяем данные итоговой таблицы", () -> {
+            table.visible();
+            expectedValues.forEach(table::checkRow);
+        });
     }
 
+    @Tag("smoke")
     @Test
     void checkInvalidInputStyleThenOnlyFirstNameGivenTest() {
-        formPage.openFormPage()
-                .removeBanner()
-                .setFirstName(FIRST_NAME)
-                .submitForm();
-
-        formPage.checkInvalidInputStyle(List.of(formPage.getLastNameInput(), formPage.getPhoneInput()));
+        step("Заполняем минимальное число данных", () -> {
+            formPage.setFirstName(FIRST_NAME);
+        });
+        step("Сабмитим форму", () -> {
+            formPage.submitForm();
+        });
+        step("Проверяем, что инпут красный", () -> {
+            formPage.checkInvalidInputStyle(List.of(formPage.getLastNameInput(), formPage.getPhoneInput()));
+        });
     }
 
+    @Tag("smoke")
     @Test
     void checkInvalidPhoneLengthTest() {
-        formPage.openFormPage()
-                .removeBanner()
-                .setPhone("983123123")
-                .submitForm();
-
-        formPage.checkInvalidInputStyle(List.of(formPage.getPhoneInput()));
+        step("Вводим телефон с невалидной длинной", () -> {
+            formPage.setPhone(PHONE.substring(0, PHONE.length() - 1));
+        });
+        step("Сабмитим форму", () -> {
+            formPage.submitForm();
+        });
+        step("Проверяем, что инпут красный", () -> {
+            formPage.checkInvalidInputStyle(List.of(formPage.getPhoneInput()));
+        });
     }
 
+    @Tag("smoke")
     @Test
     void checkValidPhoneLengthTest() {
-        formPage.openFormPage()
-                .removeBanner()
-                .setPhone("9831231234")
-                .submitForm();
-
-        formPage.checkValidInputStyle(List.of(formPage.getPhoneInput()));
+        step("Вводим телефон с валидной длинной", () -> {
+            formPage.setPhone(PHONE);
+        });
+        step("Сабмитим форму", () -> {
+            formPage.submitForm();
+        });
+        step("Проверяем, что инпут зеленый", () -> {
+            formPage.checkValidInputStyle(List.of(formPage.getPhoneInput()));
+        });
     }
 }
