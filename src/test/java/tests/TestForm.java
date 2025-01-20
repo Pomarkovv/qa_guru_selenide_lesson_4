@@ -1,8 +1,10 @@
 package tests;
 
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.logevents.SelenideLogger;
 import components.UserDataTableComponent;
 import helpers.Attach;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -37,6 +39,8 @@ public class TestForm extends BaseTest {
 
     @BeforeEach
     void openFormPage() {
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+
         step("Открываем страницу с формой", () -> {
             formPage.openFormPage()
                     .removeBanner();
