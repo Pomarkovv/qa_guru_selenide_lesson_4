@@ -15,14 +15,14 @@ public class BaseTest {
         Configuration.baseUrl = System.getProperty("baseUrl"); //"https://demoqa.com";
         Configuration.browserSize = System.getProperty("browserSize"); // "1920x1080";
         Configuration.timeout = 10000;
-        Configuration.remote = System.getProperty("selenoidUrl"); //"https://user1:1234@selenoid.autotests.cloud/wd/hub";
+        Configuration.remote = System.getProperty("selenoidUrl");//"https://user1:1234@selenoid.autotests.cloud/wd/hub";
+        Configuration.browser = System.getProperty("browser");
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("selenoid:options", Map.<String, Object>of(
                 "enableVNC", true,
                 "enableVideo", true
         ));
-        capabilities.setCapability("browserName", System.getProperty("browser"));
         capabilities.setCapability("browserVersion", System.getProperty("browserVersion"));
         Configuration.browserCapabilities = capabilities;
 
