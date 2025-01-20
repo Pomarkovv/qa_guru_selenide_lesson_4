@@ -41,7 +41,7 @@ public class TestForm extends BaseTest {
             formPage.openFormPage()
                     .removeBanner();
         });
-        executeJavaScript("$('iframe').remove()");
+        executeJavaScript("document.querySelectorAll('iframe').forEach(iframe => iframe.remove());");
     }
 
     @AfterEach
