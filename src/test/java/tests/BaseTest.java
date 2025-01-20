@@ -22,8 +22,8 @@ public class BaseTest {
                 "enableVNC", true,
                 "enableVideo", true
         ));
-        capabilities.setCapability("browserVersion", System.getProperty("browserVersion"));
         capabilities.setCapability("browserName", System.getProperty("browser"));
+        capabilities.setCapability("browserVersion", System.getProperty("browserVersion"));
         Configuration.browserCapabilities = capabilities;
 
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
