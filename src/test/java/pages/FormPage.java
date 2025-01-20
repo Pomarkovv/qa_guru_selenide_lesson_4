@@ -110,7 +110,7 @@ public class FormPage {
     }
 
     public void submitForm() {
-        submitButton.click();
+        submitButton.scrollTo().click();
     }
 
     public void checkUserDataTableField(String key, String value) {
