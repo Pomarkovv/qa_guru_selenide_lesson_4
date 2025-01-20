@@ -41,8 +41,7 @@ public class TestForm extends BaseTest {
             formPage.openFormPage()
                     .removeBanner();
         });
-        executeJavaScript("$('#fixedban').remove()");
-        executeJavaScript("$('footer').remove()");
+        executeJavaScript("$('iframe').remove()");
     }
 
     @AfterEach
