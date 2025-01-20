@@ -23,6 +23,7 @@ public class BaseTest {
                 "enableVideo", true
         ));
         capabilities.setCapability("browserVersion", System.getProperty("browserVersion"));
+        capabilities.setCapability("browserName", System.getProperty("browser"));
         Configuration.browserCapabilities = capabilities;
 
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
