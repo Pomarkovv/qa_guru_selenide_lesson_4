@@ -41,7 +41,11 @@ public class TestForm extends BaseTest {
             formPage.openFormPage()
                     .removeBanner();
         });
-        executeJavaScript("document.querySelectorAll('iframe').forEach(iframe => iframe.remove());");
+        String areaLabel = "Advertisement";
+        executeJavaScript(
+                "var element = document.querySelector('[aria-label=\"" + areaLabel + "\"]');" +
+                        "if (element) element.remove();"
+        );
     }
 
     @AfterEach
