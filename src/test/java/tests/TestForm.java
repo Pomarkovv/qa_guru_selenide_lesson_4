@@ -12,6 +12,7 @@ import pages.FormPage;
 import java.util.List;
 import java.util.Map;
 
+import static com.codeborne.selenide.Selenide.executeJavaScript;
 import static io.qameta.allure.Allure.step;
 import static utils.TestDataUtils.*;
 
@@ -40,6 +41,8 @@ public class TestForm extends BaseTest {
             formPage.openFormPage()
                     .removeBanner();
         });
+        executeJavaScript("$('#fixedban').remove()");
+        executeJavaScript("$('footer').remove()");
     }
 
     @AfterEach
