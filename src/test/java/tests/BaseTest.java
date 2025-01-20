@@ -12,7 +12,7 @@ public class BaseTest {
 
     @BeforeAll
     static void setup() {
-        Configuration.baseUrl = "https://demoqa.com";
+        Configuration.baseUrl = System.getProperty("baseUrl"); //"https://demoqa.com";
         Configuration.browserSize = System.getProperty("browserSize"); // "1920x1080";
         Configuration.timeout = 10000;
         Configuration.remote = System.getProperty("selenoidUrl"); //"https://user1:1234@selenoid.autotests.cloud/wd/hub";
