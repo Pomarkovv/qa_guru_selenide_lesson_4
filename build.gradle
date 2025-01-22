@@ -37,8 +37,12 @@ dependencies {
             "io.qameta.allure:allure-selenide:$allureVersion",
             "org.junit.jupiter:junit-jupiter:$junitVersion",
             "org.slf4j:slf4j-simple:$sl4jVersion",
-            "com.github.javafaker:javafaker:$fakerVersion"
+            "com.github.javafaker:javafaker:$fakerVersion",
+            "io.rest-assured:rest-assured:5.1.0",
+            'com.fasterxml.jackson.core:jackson-databind:2.15.2'
     )
+    testCompileOnly 'org.projectlombok:lombok:1.18.28'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.28'
 }
 
 tasks.withType(Test).configureEach {
@@ -54,6 +58,6 @@ tasks.withType(Test).configureEach {
 
 task demoqa_test(type: Test) {
     useJUnitPlatform {
-        includeTags("smoke")
+        includeTags("api")
     }
 }

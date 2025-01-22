@@ -1,24 +1,23 @@
-package tests;
+package web.tests;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
-import components.UserDataTableComponent;
-import helpers.Attach;
+import web.components.UserDataTableComponent;
+import web.helpers.Attach;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import pages.FormPage;
+import web.pages.FormPage;
 
 import java.util.List;
 import java.util.Map;
 
-import static com.codeborne.selenide.Selenide.executeJavaScript;
 import static io.qameta.allure.Allure.step;
-import static utils.TestDataUtils.*;
+import static web.utils.TestDataUtils.*;
 
-public class TestForm extends BaseTest {
+public class UITestForm extends BaseUITest {
 
     private final String FIRST_NAME = getRandomFirstName();
     private final String LAST_NAME = getRandomLastName();

@@ -1,8 +1,8 @@
-package pages;
+package web.pages;
 
 import com.codeborne.selenide.SelenideElement;
-import components.CalendarComponent;
-import components.UserDataTableComponent;
+import web.components.CalendarComponent;
+import web.components.UserDataTableComponent;
 
 import java.util.List;
 

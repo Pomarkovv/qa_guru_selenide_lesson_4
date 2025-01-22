@@ -1,4 +1,4 @@
-package components;
+package web.components;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
