@@ -63,7 +63,7 @@ tasks.withType(Test).configureEach {
 
 task web_test(type: Test) {
     useJUnitPlatform {
-        includeTags("web")
+        includeTags("smoke")
     }
 }
 
